@@ -92,11 +92,11 @@ Try searching for `"faith"` or `"temple"` — you should see results!
 
 ## Verification
 
-- [ ] `02_scrape_data.py` completes and reports scraping ~300-400+ talks
-- [ ] `scripts/output/talks.json` exists and contains talk objects
-- [ ] `03_import_data.py` completes and reports successful import of ~80,000 sentences
-- [ ] `scripts/output/sentences.json` exists with sentence records
-- [ ] Supabase Dashboard → Table Editor → `sentence_embeddings` shows data
+- [x] `02_scrape_data.py` completes and reports scraping ~300-400+ talks
+- [x] `scripts/output/talks.json` exists and contains talk objects
+- [x] `03_import_data.py` completes and reports successful import of ~80,000 sentences
+- [x] `scripts/output/sentences.json` exists with sentence records
+- [x] Supabase Dashboard → Table Editor → `sentence_embeddings` shows data
 - [ ] On your site: **🔍 Keyword Search** turns green and returns results!
 
 ## 🎉 Milestone: First green light! Keyword Search works!

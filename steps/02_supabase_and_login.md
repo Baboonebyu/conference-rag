@@ -105,9 +105,9 @@ Then configure the magic link redirect:
 
 ## Verification
 
-- [ ] Supabase project is created and accessible at your dashboard
-- [ ] `config.public.json` has your URL and anon key
-- [ ] `config.secret.json` has all four secret values filled in
+- [x] Supabase project is created and accessible at your dashboard
+- [x] `config.public.json` has your URL and anon key
+- [x] `config.secret.json` has all four secret values filled in
 - [ ] Magic link login works on your deployed site
 - [ ] You see three search panels with red "Not Ready" indicators
 

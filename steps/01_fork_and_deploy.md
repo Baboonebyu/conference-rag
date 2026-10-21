@@ -84,12 +84,12 @@ Your site will be live at: `https://YOUR-USERNAME.github.io/conference-rag/`
 
 ## Verification
 
-- [ ] You have your own fork on GitHub
-- [ ] Repo is cloned locally
-- [ ] Virtual environment is activated (`(.venv)` appears in your terminal prompt)
-- [ ] `pip install` completed without errors
-- [ ] `config.public.json` and `config.secret.json` exist (with placeholder values)
-- [ ] Site is live at your GitHub Pages URL (with setup banner)
+- [X] You have your own fork on GitHub
+- [X] Repo is cloned locally
+- [x] Virtual environment is activated (`(.venv)` appears in your terminal prompt)
+- [x] `pip install` completed without errors
+- [x] `config.public.json` and `config.secret.json` exist (with placeholder values)
+- [x] Site is live at your GitHub Pages URL (with setup banner)
 
 ## 🎉 Milestone: You have a live website!
 

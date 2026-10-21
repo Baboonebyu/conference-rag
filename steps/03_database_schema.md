@@ -126,9 +126,9 @@ print(f"sentence_embeddings: {len(result.data)} rows (expected: 0) 🔒")
 
 ## Verification
 
-- [ ] Script prints "✅ Database schema created successfully!"
-- [ ] Script prints "✅ Table verified" with a row count
-- [ ] You can see both `sentence_embeddings` and `page_views` in Supabase Dashboard → Table Editor
-- [ ] (Optional) The RLS test snippet shows `page_views` is readable but `sentence_embeddings` returns 0 rows
+- [x] Script prints "✅ Database schema created successfully!"
+- [X] Script prints "✅ Table verified" with a row count
+- [x] You can see both `sentence_embeddings` and `page_views` in Supabase Dashboard → Table Editor
+- [x] (Optional) The RLS test snippet shows `page_views` is readable but `sentence_embeddings` returns 0 rows
 
 ## → Next: [Step 04: Scrape & Import Data](04_scrape_and_import.md)
