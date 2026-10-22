@@ -3,6 +3,9 @@
 
 DROP FUNCTION IF EXISTS public.match_sentences(vector, integer);
 
+CREATE INDEX IF NOT EXISTS sentence_embeddings_calling_idx
+ON public.sentence_embeddings (calling);
+
 CREATE OR REPLACE FUNCTION public.match_sentences(
   query_embedding vector(1536),
   match_count integer DEFAULT 20,
@@ -18,22 +21,41 @@ RETURNS TABLE (
   text text,
   similarity float
 )
-LANGUAGE sql STABLE
+LANGUAGE plpgsql STABLE
 SET search_path = public
 AS $$
-  SELECT
-    se.id,
-    se.talk_id,
-    se.title,
-    se.speaker,
-    se.calling,
-    se.url,
-    se.text,
-    1 - (se.embedding <=> query_embedding) AS similarity
-  FROM public.sentence_embeddings AS se
-  WHERE filter_calling IS NULL OR se.calling = filter_calling
-  ORDER BY se.embedding <=> query_embedding
-  LIMIT match_count;
+BEGIN
+  IF filter_calling IS NULL THEN
+    RETURN QUERY
+    SELECT
+      se.id,
+      se.talk_id,
+      se.title,
+      se.speaker,
+      se.calling,
+      se.url,
+      se.text,
+      1 - (se.embedding <=> query_embedding) AS similarity
+    FROM public.sentence_embeddings AS se
+    ORDER BY se.embedding <=> query_embedding
+    LIMIT match_count;
+  ELSE
+    RETURN QUERY
+    SELECT
+      se.id,
+      se.talk_id,
+      se.title,
+      se.speaker,
+      se.calling,
+      se.url,
+      se.text,
+      1 - (se.embedding <=> query_embedding) AS similarity
+    FROM public.sentence_embeddings AS se
+    WHERE se.calling = filter_calling
+    ORDER BY se.embedding <=> query_embedding
+    LIMIT match_count;
+  END IF;
+END;
 $$;
 
 CREATE OR REPLACE FUNCTION public.get_speaker_callings()
