@@ -532,6 +532,30 @@ input:focus {
     cursor: not-allowed;
 }
 
+.rag-filter-row {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    margin: 0 0 var(--spacing-md);
+    color: var(--text-muted);
+    font-size: 0.875rem;
+}
+
+.rag-filter-row select {
+    max-width: 24rem;
+    padding: var(--spacing-sm);
+    background: var(--surface);
+    border: 2px solid var(--surface-light);
+    border-radius: var(--radius-md);
+    color: var(--text);
+    font: inherit;
+}
+
+.rag-filter-row select:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+
 /* Search Results */
 .search-results {
     min-height: 0;
@@ -760,5 +784,15 @@ input:focus {
 
     .panel-input {
         flex-direction: column;
+    }
+
+    .rag-filter-row {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .rag-filter-row select {
+        width: 100%;
+        max-width: none;
     }
 }

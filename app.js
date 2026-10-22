@@ -83,6 +83,7 @@ const ragInput = document.getElementById('rag-input');
 const ragBtn = document.getElementById('rag-btn');
 const ragResults = document.getElementById('rag-results');
 const ragStatus = document.getElementById('rag-status');
+const ragCallingFilter = document.getElementById('rag-calling-filter');
 
 // ============================================
 // SETUP BANNER DETECTION
@@ -318,6 +319,8 @@ async function checkSearchReadiness() {
     readinessCheckRunning = true;
 
     try {
+        await loadRagCallingOptions();
+
         // --- Check 1: Any data at all? (keyword search just needs text) ---
         const { count: totalCount, error: totalError } = await supabaseClient
             .from('sentence_embeddings')
@@ -391,6 +394,7 @@ function setSearchReady(type, ready) {
 
     if (inputEl) inputEl.disabled = !ready;
     if (btnEl) btnEl.disabled = !ready;
+    if (type === 'rag' && ragCallingFilter) ragCallingFilter.disabled = !ready;
 
     if (panelEl) {
         if (ready) {
@@ -401,6 +405,25 @@ function setSearchReady(type, ready) {
             panelEl.classList.remove('panel-ready');
         }
     }
+}
+
+async function loadRagCallingOptions() {
+    if (!supabaseClient || !ragCallingFilter) return;
+
+    const { data, error } = await supabaseClient.rpc('get_speaker_callings');
+    if (error) {
+        console.warn('Could not load speaker callings:', error.message);
+        return;
+    }
+
+    const selectedCalling = ragCallingFilter.value;
+    ragCallingFilter.replaceChildren(new Option('All callings', ''));
+    for (const row of data || []) {
+        if (typeof row.calling === 'string' && row.calling.trim()) {
+            ragCallingFilter.add(new Option(row.calling, row.calling));
+        }
+    }
+    ragCallingFilter.value = selectedCalling;
 }
 
 // ============================================
@@ -531,7 +554,16 @@ async function askQuestion() {
         const embedding = await getEmbedding(question);
 
         // Step 2: Search for similar sentences
-        const results = await searchSentences(embedding);
+        const calling = ragCallingFilter ? ragCallingFilter.value : '';
+        const results = await searchSentences(embedding, calling || null);
+
+        if (!results || results.length === 0) {
+            const message = calling
+                ? `No matching talk sentences found for calling “${escapeHtml(calling)}”. Try another calling or select All callings.`
+                : 'No similar content found. Try a different question.';
+            showResults('rag', `<div class="no-results">${message}</div>`);
+            return;
+        }
 
         // Step 3: Group by talk (with similarity scores and URLs)
         const topTalks = groupByTalk(results);
@@ -597,12 +629,13 @@ async function getEmbedding(text) {
 }
 
 // Search sentences using vector similarity
-async function searchSentences(embedding) {
+async function searchSentences(embedding, calling = null) {
     if (!supabaseClient) throw new Error('Supabase not configured');
 
     const { data, error } = await supabaseClient.rpc('match_sentences', {
         query_embedding: embedding,
-        match_count: 20
+        match_count: 20,
+        filter_calling: calling
     });
 
     if (error) throw new Error(`Database search failed: ${error.message}`);
@@ -619,6 +652,7 @@ function groupByTalk(sentences) {
                 talk_id: sent.talk_id,
                 title: sent.title,
                 speaker: sent.speaker,
+                calling: sent.calling,
                 url: sent.url,
                 sentences: [],
                 totalSimilarity: 0
@@ -635,6 +669,7 @@ function groupByTalk(sentences) {
             talk_id: talk.talk_id,
             title: talk.title,
             speaker: talk.speaker,
+            calling: talk.calling,
             url: talk.url,
             text: talk.sentences.join(' '),
             // TODO: Is average similarity the right metric? Alternatives worth researching:
