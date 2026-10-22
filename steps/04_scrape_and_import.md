@@ -97,7 +97,7 @@ Try searching for `"faith"` or `"temple"` — you should see results!
 - [x] `03_import_data.py` completes and reports successful import of ~80,000 sentences
 - [x] `scripts/output/sentences.json` exists with sentence records
 - [x] Supabase Dashboard → Table Editor → `sentence_embeddings` shows data
-- [ ] On your site: **🔍 Keyword Search** turns green and returns results!
+- [x] On your site: **🔍 Keyword Search** turns green and returns results!
 
 ## 🎉 Milestone: First green light! Keyword Search works!
 

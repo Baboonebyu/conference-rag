@@ -134,13 +134,13 @@ Try searching for *"How can I find peace during hard times?"* — notice how it 
 
 ## Verification
 
-- [ ] `04_embed_data.py` completes and reports embeddings generated
-- [ ] `scripts/output/sentences_with_embeddings.json` exists (your safety net!)
-- [ ] `05_update_embeddings.py` completes and reports rows updated
-- [ ] `supabase --version` shows a version number
-- [ ] `embed-question` function deployed without errors
-- [ ] You can see the function in Supabase Dashboard → Edge Functions
-- [ ] On your site: **🧠 Semantic Search** turns green and returns results!
+- [x] `04_embed_data.py` completes and reports embeddings generated
+- [x] `scripts/output/sentences_with_embeddings.json` exists (your safety net!)
+- [x] `05_update_embeddings.py` completes and reports rows updated
+- [x] `supabase --version` shows a version number
+- [x] `embed-question` function deployed without errors
+- [x] You can see the function in Supabase Dashboard → Edge Functions
+- [x] On your site: **🧠 Semantic Search** turns green and returns results!
 
 ## 🎉 Milestone: Second green light! Semantic Search works!
 
